@@ -2,7 +2,7 @@
 //  StorageService.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import Foundation
@@ -24,10 +24,29 @@ class StorageService {
         let ref = storage.reference().child(path)
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
-        
-        let _ = try await ref.putDataAsync(imageData, metadata: metadata)
-        let downloadURL = try await ref.downloadURL()
-        return downloadURL.absoluteString
+
+        var lastError: Error?
+        for attempt in 1...3 {
+            do {
+                _ = try await ref.putDataAsync(imageData, metadata: metadata)
+                let downloadURL = try await ref.downloadURL()
+                return downloadURL.absoluteString
+            } catch {
+                lastError = error
+                let message = error.localizedDescription.lowercased()
+
+                // Occasionally metadata/read path lags right after upload on some setups.
+                // Retry a couple of times before failing.
+                if message.contains("does not exist") && attempt < 3 {
+                    try await Task.sleep(nanoseconds: 400_000_000)
+                    continue
+                }
+
+                throw error
+            }
+        }
+
+        throw StorageError.objectNotFoundAfterUpload(path: path, reason: lastError?.localizedDescription ?? "Unknown error")
     }
     
     // MARK: - Upload Multiple Images
@@ -62,6 +81,7 @@ enum StorageError: LocalizedError {
     case compressionFailed
     case uploadFailed
     case downloadURLFailed
+    case objectNotFoundAfterUpload(path: String, reason: String)
     
     var errorDescription: String? {
         switch self {
@@ -71,6 +91,8 @@ enum StorageError: LocalizedError {
             return "Failed to upload image."
         case .downloadURLFailed:
             return "Failed to get download URL."
+        case .objectNotFoundAfterUpload(let path, let reason):
+            return "Upload completed but file lookup failed at '\(path)'. Check Firebase Storage bucket/rules. Details: \(reason)"
         }
     }
 }
