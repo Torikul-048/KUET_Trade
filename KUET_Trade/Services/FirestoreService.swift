@@ -2,7 +2,7 @@
 //  FirestoreService.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import Foundation
@@ -29,36 +29,42 @@ class FirestoreService {
     func fetchAllItems() async throws -> [Item] {
         let snapshot = try await itemsCollection.getDocuments()
         
-        return snapshot.documents.compactMap { doc in
+        var items = snapshot.documents.compactMap { doc in
             try? doc.data(as: Item.self)
         }
-        .filter { $0.isAvailable }
-        .sorted { $0.createdAt > $1.createdAt }
+        
+        items = items.filter { $0.isAvailable }
+        items.sort { $0.createdAt > $1.createdAt }
+        
+        return items
     }
     
     // MARK: - Fetch Items by Category
     func fetchItems(byCategory category: ItemCategory) async throws -> [Item] {
-        let snapshot = try await itemsCollection
-            .whereField("category", isEqualTo: category.rawValue)
-            .getDocuments()
+        let snapshot = try await itemsCollection.getDocuments()
         
-        return snapshot.documents.compactMap { doc in
+        var items = snapshot.documents.compactMap { doc in
             try? doc.data(as: Item.self)
         }
-        .filter { $0.isAvailable }
-        .sorted { $0.createdAt > $1.createdAt }
+        
+        items = items.filter { $0.isAvailable && $0.category == category }
+        items.sort { $0.createdAt > $1.createdAt }
+        
+        return items
     }
     
     // MARK: - Fetch Items by Seller (My Ads)
     func fetchUserItems(userID: String) async throws -> [Item] {
-        let snapshot = try await itemsCollection
-            .whereField("sellerID", isEqualTo: userID)
-            .getDocuments()
+        let snapshot = try await itemsCollection.getDocuments()
         
-        return snapshot.documents.compactMap { doc in
+        var items = snapshot.documents.compactMap { doc in
             try? doc.data(as: Item.self)
         }
-        .sorted { $0.createdAt > $1.createdAt }
+        
+        items = items.filter { $0.sellerID == userID }
+        items.sort { $0.createdAt > $1.createdAt }
+        
+        return items
     }
     
     // MARK: - Fetch Single Item
