@@ -2,7 +2,7 @@
 //  ItemViewModel.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import Foundation
@@ -75,14 +75,16 @@ class ItemViewModel: ObservableObject {
             result = result.filter { $0.category == category }
         }
         
-        // Search filter
+        // Search filter — token-based for better matching
         if !searchText.trimmed.isEmpty {
             let query = searchText.trimmed.lowercased()
+            let tokens = query.split(separator: " ").map(String.init)
             result = result.filter { item in
-                item.title.lowercased().contains(query) ||
-                item.description.lowercased().contains(query) ||
-                item.sellerName.lowercased().contains(query) ||
-                item.category.rawValue.lowercased().contains(query)
+                let searchableText = "\(item.title) \(item.description) \(item.sellerName) \(item.category.rawValue)".lowercased()
+                // Match if ALL tokens appear somewhere in the searchable text
+                return tokens.allSatisfy { token in
+                    searchableText.contains(token)
+                }
             }
         }
         

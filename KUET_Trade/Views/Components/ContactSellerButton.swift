@@ -2,7 +2,7 @@
 //  ContactSellerButton.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import SwiftUI
@@ -10,32 +10,24 @@ import SwiftUI
 // MARK: - Contact Method Enum
 enum ContactMethod: String, CaseIterable, Identifiable {
     case call = "Call"
-    case whatsApp = "WhatsApp"
-    case sms = "SMS"
     
     var id: String { rawValue }
     
     var icon: String {
         switch self {
         case .call: return "phone.fill"
-        case .whatsApp: return "message.fill"
-        case .sms: return "bubble.left.fill"
         }
     }
     
     var color: Color {
         switch self {
         case .call: return .accentColor
-        case .whatsApp: return .green
-        case .sms: return .blue
         }
     }
     
     var label: String {
         switch self {
         case .call: return "Call Seller"
-        case .whatsApp: return "WhatsApp"
-        case .sms: return "SMS"
         }
     }
 }
@@ -47,14 +39,7 @@ struct ContactSellerButtons: View {
     
     var body: some View {
         VStack(spacing: 10) {
-            // Call Button — full width
             ContactSellerButton(method: .call, phone: phone, itemTitle: itemTitle, style: .full)
-            
-            // WhatsApp + SMS side by side
-            HStack(spacing: 10) {
-                ContactSellerButton(method: .whatsApp, phone: phone, itemTitle: itemTitle, style: .full)
-                ContactSellerButton(method: .sms, phone: phone, itemTitle: itemTitle, style: .full)
-            }
         }
     }
 }
@@ -144,10 +129,6 @@ struct ContactSellerButton: View {
         switch method {
         case .call:
             openCall(phone: cleaned)
-        case .whatsApp:
-            openWhatsApp(phone: cleaned)
-        case .sms:
-            openSMS(phone: cleaned)
         }
     }
     
@@ -157,46 +138,14 @@ struct ContactSellerButton: View {
             .replacingOccurrences(of: "-", with: "")
     }
     
-    // MARK: - International Format
-    private func internationalPhone(_ phone: String) -> String {
-        var p = phone
-        if p.hasPrefix("0") {
-            p = "+88" + p
-        } else if !p.hasPrefix("+") {
-            p = "+88" + p
-        }
-        return p
-    }
-    
     // MARK: - Call
     private func openCall(phone: String) {
-        if let url = URL(string: "tel://\(phone)") {
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url)
-            } else {
-                showUnavailableAlert = true
-            }
+        guard let url = URL(string: "tel:\(phone)") else {
+            showUnavailableAlert = true
+            return
         }
-    }
-    
-    // MARK: - WhatsApp
-    private func openWhatsApp(phone: String) {
-        let intlPhone = internationalPhone(phone)
-        let message = "Hi! I'm interested in your listing: \"\(itemTitle)\" on KUET Trade."
-        let encoded = message.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        if let url = URL(string: "https://wa.me/\(intlPhone)?text=\(encoded)") {
-            UIApplication.shared.open(url)
-        }
-    }
-    
-    // MARK: - SMS
-    private func openSMS(phone: String) {
-        let message = "Hi! I'm interested in your listing: \"\(itemTitle)\" on KUET Trade."
-        let encoded = message.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        if let url = URL(string: "sms:\(phone)&body=\(encoded)") {
-            if UIApplication.shared.canOpenURL(url) {
-                UIApplication.shared.open(url)
-            } else {
+        UIApplication.shared.open(url) { success in
+            if !success {
                 showUnavailableAlert = true
             }
         }
@@ -207,10 +156,6 @@ struct ContactSellerButton: View {
         switch method {
         case .call:
             return "Phone calls are not available on this device."
-        case .whatsApp:
-            return "Could not open WhatsApp. Make sure it is installed."
-        case .sms:
-            return "SMS is not available on this device."
         }
     }
 }
@@ -301,11 +246,6 @@ struct ContactSellerSheet: View {
                 // Contact buttons
                 VStack(spacing: 10) {
                     ContactSellerButton(method: .call, phone: item.sellerPhone, itemTitle: item.title, style: .full)
-                    
-                    HStack(spacing: 10) {
-                        ContactSellerButton(method: .whatsApp, phone: item.sellerPhone, itemTitle: item.title, style: .full)
-                        ContactSellerButton(method: .sms, phone: item.sellerPhone, itemTitle: item.title, style: .full)
-                    }
                 }
                 .padding(.horizontal)
                 
@@ -362,7 +302,7 @@ struct ContactSellerSheet: View {
         category: .books,
         imageURLs: [],
         sellerID: "abc",
-        sellerName: "Himel Rahman",
+        sellerName: "Torikul Rahman",
         sellerPhone: "01712345678"
     ))
 }
