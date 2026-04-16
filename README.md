@@ -1,52 +1,147 @@
-# 🎓 KUET Trade — Campus Marketplace iOS App
+# 🎓 KUET Trade — Campus Marketplace iOS App v2.0
 
-> A dedicated iOS marketplace for KUET students to securely buy and sell academic essentials and electronics on campus.
+> A comprehensive iOS marketplace for KUET students to buy, sell, and exchange academic essentials and electronics on campus — with admin verification, real-time messaging, reviews, and multi-currency support.
 
 ![Platform](https://img.shields.io/badge/Platform-iOS%2018.4+-blue)
 ![SwiftUI](https://img.shields.io/badge/UI-SwiftUI-orange)
 ![Firebase](https://img.shields.io/badge/Backend-Firebase-yellow)
+![Cloudinary](https://img.shields.io/badge/Media-Cloudinary-blue)
 ![License](https://img.shields.io/badge/License-Academic-green)
 
 ---
 
 ## 📖 About
 
-**KUET Trade** is a campus-specific marketplace app (like Bikroy/Craigslist) built exclusively for students of **Khulna University of Engineering & Technology (KUET)**. Students can post items they want to sell, browse listings from other students, filter by category or price, and contact sellers directly via phone call or WhatsApp.
+**KUET Trade v2.0** is an advanced campus-specific marketplace app built exclusively for students of **Khulna University of Engineering & Technology (KUET)**. It's a complete buying/selling/exchanging ecosystem with seller verification, ratings, real-time messaging, and international currency support.
 
-### Why KUET Trade?
-- 🏫 **Campus-focused** — Only for KUET students
-- 📚 **Academic essentials** — Books, electronics, accessories
-- 🤝 **Peer-to-peer** — Direct buyer-seller interaction
-- 📱 **Native iOS** — Built with SwiftUI for smooth experience
-- 🔥 **Real-time** — Powered by Firebase backend
+### Why KUET Trade v2.0?
+
+- 🏫 **Campus-focused** — Exclusively for KUET students with verification system
+- 📚 **Complete Marketplace** — Buy, sell, and post reverse buy requests (want-to-buy)
+- 🔒 **Verified Sellers** — Admin verification system for trusted trades
+- ⭐ **Reviews & Ratings** — Trust-based system to ensure quality transactions
+- 💬 **Real-time Messaging** — In-app chat between buyers and sellers
+- 🌐 **Multi-Currency** — Live currency conversion (BDT ↔ USD/EUR/etc.)
+- ☁️ **Cloud Media** — Cloudinary integration for reliable image uploads
+- 📱 **Native iOS** — SwiftUI + MVVM architecture
+- 🔥 **Real-time** — Firebase Firestore + Storage backend
 
 ---
 
-## ✨ Key Features
+## ✨ Core Features
 
-| Feature | Description |
-|---------|-------------|
-| 🔐 **User Authentication** | Email/Password signup & login via Firebase Auth |
-| 📝 **Post an Item** | Upload photo (camera/gallery), title, price, description, category |
-| 🔍 **Search & Filter** | Search by keyword, filter by category, sort by price |
-| 📋 **My Ads Dashboard** | View, edit, delete, and mark-as-sold your own posts |
-| 📞 **Contact Seller** | Call or WhatsApp the seller directly from the app |
-| 🏷️ **Categories** | Books, Electronics, Accessories, Others |
-| 🏫 **Department Tags** | All 18 KUET departments supported |
+### 🔐 Authentication & Verification
+
+| Feature                       | Description                                              |
+| ----------------------------- | -------------------------------------------------------- |
+| **Email/Password Auth**       | Secure signup & login via Firebase Auth                  |
+| **Admin Verification Panel**  | Admin dashboard to approve/reject new sellers            |
+| **Pending Verification Flow** | Users see status after signup; can view rejection reason |
+| **Trust Status Display**      | User profiles show verified badge                        |
+| **Department Tags**           | All 18 KUET departments supported during registration    |
+
+### 🛒 Buying & Selling
+
+| Feature                      | Description                                                                  |
+| ---------------------------- | ---------------------------------------------------------------------------- |
+| **Post Items for Sale**      | Upload photos (cloud-based), title, price, description, category, department |
+| **Post Buy Requests**        | Reverse posting — "Looking for X item" with details and price range          |
+| **Browse Marketplace**       | Real-time feed of all available items from verified sellers                  |
+| **Advanced Search & Filter** | Search by keyword, filter by category/department, sort by price/date         |
+| **Item Details**             | Full item view with seller info, trust status, reviews, and contact options  |
+| **My Ads Dashboard**         | Manage your listings — edit, delete, mark as sold, repost                    |
+
+### ⭐ Reviews & Trust System
+
+| Feature                    | Description                                            |
+| -------------------------- | ------------------------------------------------------ |
+| **Star Rating System**     | Leave 1-5 star reviews after transactions              |
+| **Written Reviews**        | Add detailed feedback and comments                     |
+| **Seller Profile Ratings** | Average rating displayed on user profiles and listings |
+| **Trust Badge**            | Verified sellers shown with badge across the app       |
+| **Review History**         | Browse all reviews for a seller before buying          |
+
+### 💬 In-App Messaging
+
+| Feature               | Description                                                       |
+| --------------------- | ----------------------------------------------------------------- |
+| **Real-time Chat**    | Message buyers/sellers without exposing contact details initially |
+| **Conversation List** | View all active conversations with unread count                   |
+| **Message Status**    | See read/unread status of your messages                           |
+| **User Avatars**      | Display seller/buyer profile pictures in chat                     |
+| **Typing Indicators** | Know when someone is typing (optional)                            |
+
+### 🌐 International Currency Support
+
+| Feature                    | Description                                  |
+| -------------------------- | -------------------------------------------- |
+| **Live Exchange Rates**    | Fetch current BDT/USD/EUR/GBP rates from API |
+| **Auto Conversion**        | Display item prices in selected currency     |
+| **Multi-Currency Display** | Show both BDT and converted amounts          |
+| **User Preference**        | Remember selected currency across sessions   |
+
+### 🎨 UI/UX Polish
+
+| Feature               | Description                                       |
+| --------------------- | ------------------------------------------------- |
+| **Responsive Design** | Optimized for all iPhone sizes (Pro, Pro Max, SE) |
+| **Shimmer Loading**   | Skeleton screens for better perceived performance |
+| **Image Caching**     | SDWebImage for fast image loading and caching     |
+| **Tab Navigation**    | 4-tab interface (Browse, Post, My Ads, Profile)   |
+| **Dark Mode Support** | Full dark mode compatibility                      |
+
+### 📸 Media Management
+
+| Feature                    | Description                                             |
+| -------------------------- | ------------------------------------------------------- |
+| **Cloudinary Integration** | Reliable cloud-based image storage and CDN              |
+| **Camera & Photo Library** | Pick images from device camera or gallery               |
+| **Multiple Image Upload**  | Upload up to 5 images per listing                       |
+| **Image Optimization**     | Automatic compression and transformation via Cloudinary |
+| **Fallback Storage**       | Firebase Storage as backup for critical images          |
 
 ---
 
 ## 🏗️ Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| **UI Framework** | SwiftUI (iOS 18.4+) |
-| **Architecture** | MVVM (Model-View-ViewModel) |
-| **Authentication** | Firebase Auth (Email/Password) |
-| **Database** | Cloud Firestore |
-| **Image Storage** | Firebase Storage |
-| **Package Manager** | Swift Package Manager (SPM) |
-| **IDE** | Xcode 16.3 |
+| Layer               | Technology                                            |
+| ------------------- | ----------------------------------------------------- |
+| **UI Framework**    | SwiftUI (iOS 18.4+)                                   |
+| **Architecture**    | MVVM (Model-View-ViewModel)                           |
+| **Authentication**  | Firebase Auth (Email/Password)                        |
+| **Database**        | Cloud Firestore (Real-time)                           |
+| **File Storage**    | Firebase Storage + Cloudinary CDN                     |
+| **Image Upload**    | Cloudinary API (primary), Firebase Storage (backup)   |
+| **Image Loading**   | SDWebImage with async/cache support                   |
+| **External APIs**   | Currency Exchange API (xe.com / exchangerate-api.com) |
+| **Package Manager** | Swift Package Manager (SPM)                           |
+| **IDE**             | Xcode 16.3+                                           |
+
+---
+
+## 🏗️ Architecture
+
+### MVVM Pattern (Model-View-ViewModel)
+
+```
+Model ←→ ViewModel ←→ View
+  ↓        ↓           ↓
+Codable   @Published   SwiftUI
+Entity    @ObservedObject Binding
+```
+
+### Service Layer (Singleton Pattern)
+
+- **AuthService** — Firebase Auth wrapper
+- **FirestoreService** — Firestore CRUD operations
+- **StorageService** — Firebase Storage (legacy, migration support)
+- **CloudinaryService** — Cloudinary image upload & transformation
+- **ReviewService** — Review/rating management
+- **BuyRequestService** — Buy request (reverse posting) operations
+- **ChatService** — Real-time messaging via Firestore
+- **CurrencyService** — Live exchange rate API calls
+
+All services follow the singleton pattern: `SomeService.shared`
 
 ---
 
@@ -54,233 +149,169 @@
 
 ```
 KUET_Trade/
-├── KUET_TradeApp.swift              # App entry point + Firebase init
-├── ContentView.swift                # Root navigation (Auth gate)
+├── KUET_TradeApp.swift              # App entry point + Firebase init + @UIApplicationDelegateAdaptor
+├── ContentView.swift                # Root navigation (Verification-aware auth gate)
 ├── GoogleService-Info.plist         # Firebase configuration
 │
 ├── Models/
-│   ├── User.swift                   # KTUser model (Firestore Codable)
-│   └── Item.swift                   # Item model + ItemCategory enum + SortOption enum
+│   ├── User.swift                   # KTUser model (Firestore Codable, includes verification fields)
+│   ├── Item.swift                   # Item model + ItemCategory enum + SortOption enum
+│   ├── Review.swift                 # Review model (star rating + comment)
+│   ├── BuyRequest.swift             # BuyRequest model (reverse posting)
+│   ├── Message.swift                # Message model (chat message)
+│   ├── Conversation.swift           # Conversation model (chat thread)
+│   └── ExchangeRateResponse.swift    # API response model for currency rates
 │
 ├── ViewModels/
-│   ├── AuthViewModel.swift          # Login/Signup/Logout state management
-│   ├── ItemViewModel.swift          # CRUD + search/filter for items
-│   └── ImagePickerViewModel.swift   # Camera/Photo library state
+│   ├── AuthViewModel.swift          # Auth state + verification status management
+│   ├── ItemViewModel.swift          # Browse/search/filter items, CRUD
+│   ├── PostItemViewModel.swift      # Create/edit item, Cloudinary upload
+│   ├── BuyRequestViewModel.swift    # Create/browse buy requests
+│   ├── ReviewViewModel.swift        # Write/read reviews
+│   ├── ChatViewModel.swift          # Real-time messaging state
+│   └── CurrencyViewModel.swift      # Live exchange rate management
 │
 ├── Views/
+│   ├── MainTabView.swift            # 4-tab root navigation (Home, Post, My Ads, Profile)
+│   │
 │   ├── Auth/
-│   │   ├── LoginView.swift          # Login screen
-│   │   ├── SignUpView.swift         # Registration screen
-│   │   └── ForgotPasswordView.swift # Password reset screen
+│   │   ├── LoginView.swift          # Email/password login screen
+│   │   ├── SignUpView.swift         # Registration + department selection
+│   │   ├── ForgotPasswordView.swift # Password reset screen
+│   │   ├── PendingVerificationView.swift   # "Waiting for admin approval" screen
+│   │   └── RejectedAccountView.swift       # "Account rejected" + reason display
+│   │
+│   ├── Admin/
+│   │   ├── AdminDashboardView.swift # Admin main dashboard
+│   │   ├── AdminLoginView.swift     # Admin login/access screen
+│   │   ├── AllUsersView.swift       # View all registered users
+│   │   ├── PendingUsersView.swift   # Pending verification queue
+│   │   └── UserVerificationDetailView.swift # Individual user review & approve/reject
 │   │
 │   ├── Home/
-│   │   ├── HomeView.swift           # Main feed (browse all items)
-│   │   ├── ItemCardView.swift       # Single item card component
-│   │   └── ItemDetailView.swift     # Full item detail + contact seller
+│   │   ├── HomeView.swift           # Main feed (browse items + buy requests)
+│   │   ├── ItemCardView.swift       # Single item card (thumbnail, price, seller info)
+│   │   └── ItemDetailView.swift     # Full item detail + seller reviews + contact options
 │   │
 │   ├── Post/
-│   │   ├── PostItemView.swift       # Create new listing form
+│   │   ├── PostItemView.swift       # Create new item listing (Cloudinary upload)
 │   │   └── EditItemView.swift       # Edit existing listing
 │   │
+│   ├── BuyRequests/
+│   │   ├── PostBuyRequestView.swift # Create "want-to-buy" post
+│   │   ├── BuyRequestsListView.swift# Browse all buy requests
+│   │   └── BuyRequestDetailView.swift# View single buy request details
+│   │
+│   ├── Reviews/
+│   │   ├── WriteReviewView.swift    # Leave 1-5 star + comment review
+│   │   └── ReviewsListView.swift    # Browse all reviews for a seller
+│   │
+│   ├── Chat/
+│   │   ├── ChatView.swift           # Message thread with individual user
+│   │   ├── ConversationsListView.swift# List all active conversations
+│   │   └── MessageBubbleView.swift  # Individual message bubble UI
+│   │
 │   ├── Search/
-│   │   └── SearchFilterView.swift   # Search bar + filter/sort controls
+│   │   └── SearchFilterView.swift   # Search bar + category/dept/price filters
 │   │
 │   ├── Profile/
-│   │   ├── MyAdsView.swift          # User's own listings dashboard
-│   │   └── ProfileView.swift        # User profile + logout
+│   │   ├── MyAdsView.swift          # User's own listings dashboard (edit/delete/sold)
+│   │   └── ProfileView.swift        # User profile + average rating + logout
 │   │
 │   └── Components/
-│       ├── ImagePicker.swift        # UIImagePickerController wrapper
-│       ├── CategoryPicker.swift     # Category selection component
-│       └── ContactSellerButton.swift# Call/WhatsApp buttons
+│       ├── ImagePicker.swift        # UIImagePickerController wrapper (camera/gallery)
+│       ├── LaunchScreenView.swift   # Splash screen
+│       ├── ShimmerView.swift        # Loading skeleton animation
+│       ├── ContactSellerButton.swift# Call/WhatsApp/Message action buttons
+│       ├── StarRatingView.swift     # Interactive 1-5 star selector
+│       └── (Additional UI components)
 │
 ├── Services/
-│   ├── AuthService.swift            # Firebase Auth wrapper (singleton)
-│   ├── FirestoreService.swift       # Firestore CRUD operations (singleton)
-│   └── StorageService.swift         # Firebase Storage upload/delete (singleton)
+│   ├── AuthService.swift            # Firebase Auth (singleton) — signup/signin/signout/password reset
+│   ├── FirestoreService.swift       # Firestore CRUD (singleton) — items, users, reviews, buy requests
+│   ├── StorageService.swift         # Firebase Storage (singleton, legacy for migration)
+│   ├── CloudinaryService.swift      # Cloudinary API (singleton) — image upload/transform/delete
+│   ├── ReviewService.swift          # Review operations — write/read/average rating
+│   ├── BuyRequestService.swift      # Buy request CRUD operations
+│   ├── ChatService.swift            # Real-time Firestore chat — conversations, messages, read state
+│   └── CurrencyService.swift        # External API — fetch live exchange rates
 │
 ├── Utilities/
-│   ├── Constants.swift              # App-wide constants & config
-│   └── Extensions.swift             # String, View, Date, Double extensions
+│   ├── Constants.swift              # App config, API keys, collection names, 18 departments
+│   ├── Extensions.swift             # String validation, View helpers, Date/Double formatting
+│   ├── FirestoreRules.swift         # Firestore security rules (reference)
+│   ├── NetworkMonitor.swift         # Network connectivity checks
+│   └── Color+Extensions.swift       # Custom color palette
 │
-└── Assets.xcassets/                 # App icons, colors, images
+└── Assets.xcassets/                 # App icons, accent colors, images
 ```
 
 ---
 
-## 🗄️ Firestore Database Schema
+## 🗄️ Firestore Database Schema (Updated v2.0)
 
 ### `users` Collection
+
 ```
 users/{userId}
-├── uid: String
-├── name: String
-├── email: String
-├── phone: String
-├── department: String (e.g., "CSE", "EEE")
-├── joinedDate: Timestamp
-└── profileImageURL: String? (optional)
+├── uid: String                    # Firebase Auth UID
+├── name: String                   # Full name
+├── email: String                  # Email address
+├── phone: String                  # WhatsApp/Call number
+├── department: String             # KUET department (CSE, EEE, etc.)
+├── joinedDate: Timestamp          # Account creation date
+├── profileImageURL: String?       # User avatar (optional)
+├── verificationStatus: String     # "approved" | "pending" | "rejected"
+├── rejectionReason: String?       # Why admin rejected (optional)
+├── averageRating: Double          # Computed from reviews collection
+└── totalReviews: Int              # Count of reviews received
 ```
 
 ### `items` Collection
+
 ```
 items/{itemId}
-├── title: String
-├── description: String
-├── price: Double
-├── category: String ("Books" | "Electronics" | "Accessories" | "Others")
-├── imageURLs: [String]
-├── sellerID: String (→ users/{userId})
-├── sellerName: String
-├── sellerPhone: String
-├── isAvailable: Bool
+├── title: String                  # Item name
+├── description: String            # Full description
+├── price: Double                  # Price in BDT
+├── category: String               # "Books" | "Electronics" | "Accessories" | "Others"
+├── department: String             # KUET department
+├── imageURLs: [String]            # Cloudinary URLs (1-5 images)
+├── sellerID: String               # → users/{userId}
+├── sellerName: String             # Seller display name
+├── sellerPhone: String            # Seller phone
+├── sellerVerified: Bool           # Is seller verified?
+├── isAvailable: Bool              # Currently available?
+├── isSold: Bool                   # Marked as sold?
 ├── createdAt: Timestamp
-└── updatedAt: Timestamp
+├── updatedAt: Timestamp
+└── reviewsCount: Int              # Number of reviews on this listing
 ```
 
----
+### `reviews` Collection
 
-## 📱 App Flow
+Review model for ratings and feedback.
 
-```
-App Launch
-    │
-    ├── Not Logged In ──→ LoginView
-    │                        ├── → SignUpView
-    │                        └── → ForgotPasswordView
-    │
-    └── Logged In ──→ TabView (4 tabs)
-                        ├── 🏠 Home (Browse all items)
-                        │     ├── Search Bar + Filters
-                        │     └── Tap Item → ItemDetailView
-                        │                      └── Contact Seller (Call/WhatsApp)
-                        │
-                        ├── ➕ Post (Create new listing)
-                        │     ├── Camera / Photo Library
-                        │     ├── Title, Price, Description
-                        │     └── Category Picker
-                        │
-                        ├── 📋 My Ads (Manage your listings)
-                        │     ├── Edit → EditItemView
-                        │     ├── Delete
-                        │     └── Mark as Sold
-                        │
-                        └── 👤 Profile
-                              ├── User Info
-                              └── Logout
-```
+### `buyRequests` Collection
+
+For reverse posting — "Looking for X item" with details and price range.
+
+### `conversations` Collection
+
+Real-time messaging between buyers and sellers.
+
+### `messages` Collection (Subcollection)
+
+Individual messages within conversations.
 
 ---
 
-## 🔧 Setup Instructions
+## 👥 Team Attribution (v2.0 Update)
 
-### Prerequisites
-- macOS with **Xcode 16.3+**
-- Apple Developer account (for device testing)
-- Firebase project ([console.firebase.google.com](https://console.firebase.google.com))
-
-### Step 1: Clone & Open
-```bash
-cd ~/Desktop
-open KUET_Trade/KUET_Trade.xcodeproj
-```
-
-### Step 2: Firebase Setup
-1. Create a Firebase project at [Firebase Console](https://console.firebase.google.com)
-2. Register iOS app with bundle ID: `torikul.KUET-Trade`
-3. Download `GoogleService-Info.plist` → place in `KUET_Trade/` folder
-4. Enable **Email/Password** in Authentication → Sign-in method
-5. Create **Firestore Database** (start in test mode)
-6. Enable **Firebase Storage** (start in test mode)
-
-### Step 3: Add SPM Dependencies
-In Xcode: File → Add Package Dependencies → Add:
-- `https://github.com/firebase/firebase-ios-sdk` → Select: `FirebaseAuth`, `FirebaseFirestore`, `FirebaseStorage`
-- `https://github.com/nicklama/firebase-storage-combine` (if needed)
-
-### Step 4: Build & Run
-- Select iPhone simulator or physical device
-- Press `Cmd + R` to build and run
+| Member            | GitHub                                         | v2.0 Features                                                                          |
+| ----------------- | ---------------------------------------------- | -------------------------------------------------------------------------------------- |
+| **Farid Ahmed**   | [@Farid-43](https://github.com/Farid-43)       | Trust & governance: admin verification, moderation, admin side, profile trust, filters |
+| **Sayeem**        | [@Sayeem33](https://github.com/Sayeem33)       | Buyer experience: buy requests, ratings/reviews, discovery UI, currency support        |
+| **Torikul Islam** | [@Torikul-048](https://github.com/Torikul-048) | Seller & communication: posting/edit, cloud media upload, messaging, app polish        |
 
 ---
-
-## 🔒 Firebase Security Rules (Production)
-
-### Firestore Rules
-```javascript
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    // Users can read/write their own profile
-    match /users/{userId} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null && request.auth.uid == userId;
-    }
-    // Items: anyone logged in can read, only owner can write/delete
-    match /items/{itemId} {
-      allow read: if request.auth != null;
-      allow create: if request.auth != null;
-      allow update, delete: if request.auth != null && 
-        request.auth.uid == resource.data.sellerID;
-    }
-  }
-}
-```
-
-### Storage Rules
-```javascript
-rules_version = '2';
-service firebase.storage {
-  match /b/{bucket}/o {
-    match /item_images/{allPaths=**} {
-      allow read: if request.auth != null;
-      allow write: if request.auth != null
-        && request.resource.size < 5 * 1024 * 1024
-        && request.resource.contentType.matches('image/.*');
-    }
-  }
-}
-```
-
----
-
-## 📦 Dependencies
-
-| Package | Version | Purpose |
-|---------|---------|---------|
-| `firebase-ios-sdk` | Latest | Auth, Firestore, Storage |
-| `SDWebImageSwiftUI` | Latest | Async image loading & caching |
-
----
-
-## 👨‍💻 Developer
-
-| | |
-|---|---|
-| **Name** | Himel (Torikul) |
-| **University** | KUET |
-| **Bundle ID** | `torikul.KUET-Trade` |
-| **Firebase Project** | `kuet-trade` |
-
----
-
-## 📄 License
-
-This project is developed for academic purposes at KUET. All rights reserved.
-
----
-
-## 🗺️ Development Roadmap
-
-See [PROGRESS.md](./PROGRESS.md) for detailed phase-by-phase tracking.
-
-| Phase | Description | Status |
-|-------|-------------|--------|
-| Phase 1 | Project Setup + Firebase + Models + Services + Utilities | ✅ Done |
-| Phase 2 | Authentication (Login/Signup/Logout) Views + ViewModel | ⬜ Next |
-| Phase 3 | Home Feed + Item Display | ⬜ Pending |
-| Phase 4 | Post & Edit Items | ⬜ Pending |
-| Phase 5 | Search & Filter | ⬜ Pending |
-| Phase 6 | My Ads Dashboard + Profile | ⬜ Pending |
-| Phase 7 | Contact Seller (Call/WhatsApp) | ⬜ Pending |
-| Phase 8 | Polish & Final Touches | ⬜ Pending |
