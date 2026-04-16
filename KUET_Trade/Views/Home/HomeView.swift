@@ -2,7 +2,7 @@
 //  HomeView.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import SwiftUI
@@ -20,6 +20,27 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 16) {
+                    // MARK: - Branded Header
+                    HStack(spacing: 12) {
+                        Image("logoo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 42, height: 42)
+                            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text("KUET")
+                                .font(.title3)
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color.kuetGreen)
+                            Text("Trade Marketplace")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+
+                        Spacer()
+                    }
+                    .padding(.horizontal)
                     
                     // MARK: - Search Bar
                     HStack(spacing: 10) {
@@ -61,7 +82,7 @@ struct HomeView: View {
                         }
                     }
                     .padding(10)
-                    .background(Color(.secondarySystemGroupedBackground))
+                    .background(Color.kuetSurface)
                     .cornerRadius(12)
                     .padding(.horizontal)
                     
@@ -217,7 +238,7 @@ struct HomeView: View {
             .refreshable {
                 await itemViewModel.refresh()
             }
-            .navigationTitle(AppConstants.appName)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
