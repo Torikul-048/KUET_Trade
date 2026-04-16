@@ -2,7 +2,7 @@
 //  MainTabView.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import SwiftUI
@@ -25,25 +25,40 @@ struct MainTabView: View {
                         Label("Home", systemImage: "house.fill")
                     }
                     .tag(0)
+
+                BuyRequestsListView()
+                    .tabItem {
+                        Label("Requests", systemImage: "hand.raised.fill")
+                    }
+                    .tag(1)
+
+                ConversationsListView()
+                    .tabItem {
+                        Label("Messages", systemImage: "bubble.left.and.bubble.right.fill")
+                    }
+                    .tag(2)
                 
                 PostItemView(itemViewModel: itemViewModel)
                     .tabItem {
                         Label("Post", systemImage: "plus.circle.fill")
                     }
-                    .tag(1)
+                    .tag(3)
                 
                 MyAdsView(authViewModel: authViewModel, itemViewModel: itemViewModel)
                     .tabItem {
                         Label("My Ads", systemImage: "rectangle.stack.fill")
                     }
-                    .tag(2)
+                    .tag(4)
                 
                 ProfileView(authViewModel: authViewModel)
                     .tabItem {
                         Label("Profile", systemImage: "person.circle.fill")
                     }
-                    .tag(3)
+                    .tag(5)
             }
+            .tint(Color.kuetGreen)
+            .toolbarBackground(Color(.systemBackground), for: .tabBar)
+            .toolbarBackground(.visible, for: .tabBar)
             .onChange(of: selectedTab) { _, _ in
                 let generator = UIImpactFeedbackGenerator(style: .light)
                 generator.impactOccurred()

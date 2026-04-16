@@ -2,7 +2,7 @@
 //  KUET_TradeUITests.swift
 //  KUET_TradeUITests
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import XCTest

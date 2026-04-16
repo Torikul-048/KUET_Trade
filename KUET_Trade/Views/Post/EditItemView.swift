@@ -2,7 +2,7 @@
 //  EditItemView.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import SwiftUI
@@ -304,7 +304,7 @@ struct EditItemView: View {
             category: .books,
             imageURLs: [],
             sellerID: "abc",
-            sellerName: "Himel",
+            sellerName: "Torikul",
             sellerPhone: "01712345678"
         ))
     }

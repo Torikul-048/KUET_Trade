@@ -2,7 +2,7 @@
 //  Constants.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import Foundation
@@ -19,12 +19,28 @@ struct AppConstants {
     struct Collections {
         static let users = "users"
         static let items = "items"
+        static let reviews = "reviews"
+        static let buyRequests = "buyRequests"
+        static let conversations = "conversations"
+        static let messages = "messages"
     }
     
     // MARK: - Storage Paths
     struct StoragePaths {
         static let itemImages = "item_images"
         static let profileImages = "profile_images"
+    }
+
+    // MARK: - Cloudinary
+    struct Cloudinary {
+        static let cloudName = "dxmacan3v"
+        static let uploadPreset = "kuet_trade_preset"
+        static let defaultFolder = "kuet_trade"
+    }
+
+    // MARK: - Currency API
+    struct Currency {
+        static let baseURL = "https://open.er-api.com/v6/latest"
     }
     
     // MARK: - Departments at KUET

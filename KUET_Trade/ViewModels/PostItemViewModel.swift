@@ -2,7 +2,7 @@
 //  PostItemViewModel.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import Foundation
@@ -154,7 +154,7 @@ class PostItemViewModel: ObservableObject {
             var imageURLs: [String] = []
             if !selectedImages.isEmpty {
                 let folderPath = "\(AppConstants.StoragePaths.itemImages)/\(currentUser.uid)/\(UUID().uuidString)"
-                imageURLs = try await StorageService.shared.uploadImages(selectedImages, folderPath: folderPath)
+                imageURLs = try await uploadImagesWithFallback(selectedImages, folderPath: folderPath)
             }
             
             // 2. Create item
@@ -197,14 +197,15 @@ class PostItemViewModel: ObservableObject {
             var finalURLs = existingImageURLs
             if !selectedImages.isEmpty {
                 let folderPath = "\(AppConstants.StoragePaths.itemImages)/\(item.sellerID)/\(UUID().uuidString)"
-                let newURLs = try await StorageService.shared.uploadImages(selectedImages, folderPath: folderPath)
+                let newURLs = try await uploadImagesWithFallback(selectedImages, folderPath: folderPath)
                 finalURLs.append(contentsOf: newURLs)
             }
             
             // 2. Delete removed images from storage
             let removedURLs = item.imageURLs.filter { !existingImageURLs.contains($0) }
             if !removedURLs.isEmpty {
-                try? await StorageService.shared.deleteImages(urls: removedURLs)
+                // Cloudinary unsigned uploads should be deleted via backend/admin API.
+                // Keep removed URLs out of the item document so they no longer appear in-app.
             }
             
             // 3. Update item fields
@@ -242,5 +243,15 @@ class PostItemViewModel: ObservableObject {
     private func showErrorMessage(_ message: String) {
         errorMessage = message
         showError = true
+    }
+
+    // MARK: - Upload Fallback
+    private func uploadImagesWithFallback(_ images: [UIImage], folderPath: String) async throws -> [String] {
+        do {
+            return try await StorageService.shared.uploadImages(images, folderPath: folderPath)
+        } catch {
+            // Fallback for Firebase Storage issues.
+            return try await CloudinaryService.shared.uploadImages(images, folder: folderPath)
+        }
     }
 }

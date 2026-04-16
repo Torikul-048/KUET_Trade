@@ -2,7 +2,7 @@
 //  PostItemView.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import SwiftUI
@@ -71,23 +71,28 @@ struct PostItemView: View {
     // MARK: - Post Form
     private var postFormView: some View {
         ScrollView {
-            VStack(spacing: 20) {
+            VStack(spacing: 16) {
                 
                 // MARK: - Image Section
-                imageSection
-                
-                // Inline image validation
-                if isImagesInvalid {
-                    inlineError("Please add at least one photo.")
-                        .padding(.horizontal)
+                VStack(alignment: .leading, spacing: 8) {
+                    imageSection
+                    
+                    if isImagesInvalid {
+                        inlineError("Please add at least one photo.")
+                            .padding(.horizontal)
+                    }
                 }
+                .padding(.vertical, 12)
+                .background(Color(.secondarySystemGroupedBackground))
+                .cornerRadius(14)
+                .padding(.horizontal)
                 
                 // MARK: - Title
                 VStack(alignment: .leading, spacing: 6) {
                     HStack {
                         Label("Title", systemImage: "textformat")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .font(.subheadline.weight(.medium))
+                            .foregroundStyle(.primary)
                         Spacer()
                         Text(viewModel.titleCharCount)
                             .font(.caption2)
@@ -95,10 +100,12 @@ struct PostItemView: View {
                     }
                     
                     TextField("e.g. Data Structures Textbook", text: $viewModel.title)
-                        .textFieldStyle(.roundedBorder)
+                        .padding(10)
+                        .background(Color(.tertiarySystemGroupedBackground))
+                        .cornerRadius(10)
                         .autocorrectionDisabled()
                         .overlay(
-                            RoundedRectangle(cornerRadius: 6)
+                            RoundedRectangle(cornerRadius: 10)
                                 .stroke(isTitleInvalid ? Color.red : Color.clear, lineWidth: 1)
                         )
                     
@@ -112,8 +119,8 @@ struct PostItemView: View {
                 VStack(alignment: .leading, spacing: 6) {
                     HStack {
                         Label("Description", systemImage: "text.alignleft")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .font(.subheadline.weight(.medium))
+                            .foregroundStyle(.primary)
                         Spacer()
                         Text(viewModel.descCharCount)
                             .font(.caption2)
@@ -123,9 +130,11 @@ struct PostItemView: View {
                     TextEditor(text: $viewModel.description)
                         .frame(minHeight: 100)
                         .padding(4)
+                        .background(Color(.tertiarySystemGroupedBackground))
+                        .cornerRadius(10)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(isDescriptionInvalid ? Color.red : Color(.separator), lineWidth: isDescriptionInvalid ? 1 : 0.5)
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(isDescriptionInvalid ? Color.red : Color(.separator).opacity(0.3), lineWidth: isDescriptionInvalid ? 1 : 0.5)
                         )
                         .overlay(alignment: .topLeading) {
                             if viewModel.description.isEmpty {
@@ -146,14 +155,16 @@ struct PostItemView: View {
                 // MARK: - Price
                 VStack(alignment: .leading, spacing: 6) {
                     Label("Price (৳)", systemImage: "bangladeshitakasign")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.primary)
                     
                     TextField("e.g. 500", text: $viewModel.priceText)
-                        .textFieldStyle(.roundedBorder)
+                        .padding(10)
+                        .background(Color(.tertiarySystemGroupedBackground))
+                        .cornerRadius(10)
                         .keyboardType(.numberPad)
                         .overlay(
-                            RoundedRectangle(cornerRadius: 6)
+                            RoundedRectangle(cornerRadius: 10)
                                 .stroke(isPriceInvalid ? Color.red : Color.clear, lineWidth: 1)
                         )
                     
@@ -166,8 +177,8 @@ struct PostItemView: View {
                 // MARK: - Category
                 VStack(alignment: .leading, spacing: 6) {
                     Label("Category", systemImage: "tag.fill")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .font(.subheadline.weight(.medium))
+                        .foregroundStyle(.primary)
                     
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 10) {
@@ -184,7 +195,7 @@ struct PostItemView: View {
                                     }
                                     .padding(.horizontal, 14)
                                     .padding(.vertical, 8)
-                                    .background(viewModel.selectedCategory == category ? Color.accentColor : Color(.secondarySystemGroupedBackground))
+                                    .background(viewModel.selectedCategory == category ? Color.kuetGreen : Color(.secondarySystemGroupedBackground))
                                     .foregroundStyle(viewModel.selectedCategory == category ? .white : .primary)
                                     .cornerRadius(20)
                                 }
@@ -208,14 +219,15 @@ struct PostItemView: View {
                             ProgressView()
                                 .tint(.white)
                         }
+                        Image(systemName: "paperplane.fill")
                         Text("Post Item")
                             .fontWeight(.semibold)
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.accentColor)
+                    .background(Color.kuetGreen)
                     .foregroundStyle(.white)
-                    .cornerRadius(12)
+                    .cornerRadius(14)
                 }
                 .disabled(viewModel.isLoading)
                 .padding(.horizontal)
@@ -223,6 +235,7 @@ struct PostItemView: View {
             }
             .padding(.top, 8)
         }
+        .background(Color.kuetSurface)
         .onTapGesture {
             hideKeyboard()
         }
@@ -307,21 +320,28 @@ struct PostItemView: View {
     
     // MARK: - Success View
     private var postSuccessView: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 24) {
             Spacer()
             
-            Image(systemName: "checkmark.circle.fill")
-                .font(.system(size: 64))
-                .foregroundStyle(.green)
+            ZStack {
+                Circle()
+                    .fill(Color.kuetGreen.opacity(0.12))
+                    .frame(width: 120, height: 120)
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.system(size: 64))
+                    .foregroundStyle(Color.kuetGreen)
+            }
             
-            Text("Posted Successfully!")
-                .font(.title2)
-                .fontWeight(.bold)
-            
-            Text("Your item is now live on the marketplace.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
+            VStack(spacing: 8) {
+                Text("Posted Successfully!")
+                    .font(.title2)
+                    .fontWeight(.bold)
+                
+                Text("Your item is now live on the marketplace.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
             
             Button {
                 hasAttemptedSubmit = false
@@ -330,18 +350,22 @@ struct PostItemView: View {
                     await itemViewModel.refresh()
                 }
             } label: {
-                Text("Post Another Item")
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.accentColor)
-                    .foregroundStyle(.white)
-                    .cornerRadius(12)
+                HStack(spacing: 8) {
+                    Image(systemName: "plus.circle.fill")
+                    Text("Post Another Item")
+                        .fontWeight(.semibold)
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(Color.kuetGreen)
+                .foregroundStyle(.white)
+                .cornerRadius(14)
             }
-            .padding(.horizontal)
+            .padding(.horizontal, 32)
             
             Spacer()
         }
+        .background(Color.kuetSurface)
         .onAppear {
             let generator = UINotificationFeedbackGenerator()
             generator.notificationOccurred(.success)
