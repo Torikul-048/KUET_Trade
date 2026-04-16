@@ -2,7 +2,7 @@
 //  MyAdsView.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import SwiftUI
@@ -243,7 +243,7 @@ struct MyAdsView: View {
         do {
             // Delete images from storage
             if !item.imageURLs.isEmpty {
-                try? await StorageService.shared.deleteImages(urls: item.imageURLs)
+                try? await CloudinaryService.shared.deleteImages(urls: item.imageURLs)
             }
             
             // Delete Firestore document

@@ -2,27 +2,34 @@
 //  ContentView.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var authViewModel = AuthViewModel()
+    @StateObject private var viewModel = AuthViewModel.shared
     
     var body: some View {
         Group {
-            if authViewModel.isCheckingAuth {
-                // Animated Splash / Launch Screen
+            if viewModel.isCheckingAuth {
                 LaunchScreenView()
-            } else if authViewModel.isLoggedIn {
-                MainTabView(authViewModel: authViewModel)
+            } else if let user = viewModel.currentUser {
+                if user.isVerified {
+                    MainTabView(authViewModel: viewModel)
+                } else if user.verificationStatus == .rejected {
+                    RejectedAccountView(onSignOut: {
+                        viewModel.signOut()
+                    })
+                } else {
+                    PendingVerificationView(onSignOut: {
+                        viewModel.signOut()
+                    })
+                }
             } else {
-                LoginView(viewModel: authViewModel)
+                LoginView(viewModel: viewModel)
             }
         }
-        .animation(.easeInOut(duration: 0.4), value: authViewModel.isLoggedIn)
-        .animation(.easeInOut(duration: 0.4), value: authViewModel.isCheckingAuth)
     }
 }
 

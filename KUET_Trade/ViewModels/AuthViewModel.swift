@@ -2,7 +2,7 @@
 //  AuthViewModel.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import Foundation
@@ -29,6 +29,12 @@ class AuthViewModel: ObservableObject {
     @Published var signupEmail: String = ""
     @Published var signupPhone: String = ""
     @Published var signupDepartment: String = ""
+    @Published var signupRoll: String = ""
+    @Published var signupBatch: String = ""
+    @Published var refFriendName: String = ""
+    @Published var refFriendRoll: String = ""
+    @Published var refFriendDept: String = ""
+    @Published var refFriendBatch: String = ""
     @Published var signupPassword: String = ""
     @Published var signupConfirmPassword: String = ""
     
@@ -121,6 +127,12 @@ class AuthViewModel: ObservableObject {
                 email: signupEmail.trimmed,
                 phone: signupPhone.trimmed,
                 department: signupDepartment,
+                roll: signupRoll.trimmed,
+                batch: signupBatch,
+                refFriendName: refFriendName.trimmed,
+                refFriendRoll: refFriendRoll.trimmed,
+                refFriendDept: refFriendDept,
+                refFriendBatch: refFriendBatch,
                 password: signupPassword
             )
             currentUser = user
@@ -192,10 +204,16 @@ class AuthViewModel: ObservableObject {
         let email = signupEmail.trimmed
         let phone = signupPhone.trimmed
         let department = signupDepartment
+        let roll = signupRoll.trimmed
+        let batch = signupBatch
+        let friendName = refFriendName.trimmed
+        let friendRoll = refFriendRoll.trimmed
+        let friendDept = refFriendDept
+        let friendBatch = refFriendBatch
         let password = signupPassword
         let confirmPassword = signupConfirmPassword
         
-        if name.isEmpty || email.isEmpty || phone.isEmpty || department.isEmpty || password.isEmpty || confirmPassword.isEmpty {
+        if name.isEmpty || email.isEmpty || phone.isEmpty || department.isEmpty || roll.isEmpty || batch.isEmpty || friendName.isEmpty || friendRoll.isEmpty || friendDept.isEmpty || friendBatch.isEmpty || password.isEmpty || confirmPassword.isEmpty {
             showErrorMessage("Please fill in all fields.")
             return false
         }
@@ -205,6 +223,14 @@ class AuthViewModel: ObservableObject {
         }
         if !phone.isValidPhone {
             showErrorMessage("Please enter a valid phone number (10–14 digits).")
+            return false
+        }
+        if !roll.allSatisfy({ $0.isNumber }) {
+            showErrorMessage("Roll number must contain digits only.")
+            return false
+        }
+        if !friendRoll.allSatisfy({ $0.isNumber }) {
+            showErrorMessage("Reference roll number must contain digits only.")
             return false
         }
         if password.count < AppConstants.Validation.minPasswordLength {
@@ -264,6 +290,12 @@ class AuthViewModel: ObservableObject {
         signupEmail = ""
         signupPhone = ""
         signupDepartment = ""
+        signupRoll = ""
+        signupBatch = ""
+        refFriendName = ""
+        refFriendRoll = ""
+        refFriendDept = ""
+        refFriendBatch = ""
         signupPassword = ""
         signupConfirmPassword = ""
     }

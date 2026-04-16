@@ -2,15 +2,24 @@
 //  ItemDetailView.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import SwiftUI
 
 struct ItemDetailView: View {
     let item: Item
+    @StateObject private var currencyViewModel = CurrencyViewModel()
     @State private var selectedImageIndex: Int = 0
     @State private var showContactSheet: Bool = false
+    @State private var showReviewsSheet: Bool = false
+    @State private var isPreparingChat: Bool = false
+    @State private var chatConversation: Conversation?
+    @State private var chatErrorMessage: String?
+    @State private var showChatError: Bool = false
+    @State private var sellerAverageRating: Double = 0
+    @State private var sellerTotalReviews: Int = 0
+    @State private var isLoadingReviews: Bool = false
     
     // Check if current user is the seller
     private var isOwnItem: Bool {
@@ -125,6 +134,16 @@ struct ItemDetailView: View {
                                 .font(.title)
                                 .fontWeight(.bold)
                                 .foregroundStyle(item.isAvailable ? Color.accentColor : .secondary)
+
+                            if currencyViewModel.isLoading {
+                                Text("Converting...")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            } else if let formattedUSD = currencyViewModel.formattedUSD {
+                                Text("≈ \(formattedUSD)")
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                            }
                             
                             if !item.isAvailable {
                                 Text("SOLD")
@@ -241,9 +260,73 @@ struct ItemDetailView: View {
                             }
                         }
                     }
+
+                    Divider()
+
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            Text("Seller Reviews")
+                                .font(.headline)
+                            Spacer()
+                            if isLoadingReviews {
+                                ProgressView()
+                                    .scaleEffect(0.8)
+                            }
+                        }
+
+                        HStack(spacing: 8) {
+                            StarRatingView(rating: sellerAverageRating, size: 16)
+                            Text(String(format: "%.1f", sellerAverageRating))
+                                .fontWeight(.semibold)
+                            Text("(\(sellerTotalReviews) reviews)")
+                                .font(.subheadline)
+                                .foregroundStyle(.secondary)
+                        }
+
+                        Button {
+                            showReviewsSheet = true
+                        } label: {
+                            HStack {
+                                Text("View All Reviews")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                            }
+                            .font(.subheadline)
+                            .padding(.horizontal, 12)
+                            .padding(.vertical, 10)
+                            .background(Color.accentColor.opacity(0.1))
+                            .foregroundStyle(Color.accentColor)
+                            .cornerRadius(10)
+                        }
+                    }
                     
                     // MARK: - Contact Buttons (only for other sellers' available items)
                     if !isOwnItem && item.isAvailable {
+                        Divider()
+
+                        Button {
+                            Task {
+                                await startConversation()
+                            }
+                        } label: {
+                            HStack {
+                                if isPreparingChat {
+                                    ProgressView()
+                                        .tint(.white)
+                                }
+                                Image(systemName: "bubble.left.and.bubble.right.fill")
+                                Text("Message Seller")
+                                    .fontWeight(.semibold)
+                            }
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.kuetGreen)
+                            .foregroundStyle(.white)
+                            .cornerRadius(12)
+                        }
+                        .disabled(isPreparingChat)
+
                         Divider()
                         
                         // Contact Buttons (Compact)
@@ -317,6 +400,73 @@ struct ItemDetailView: View {
             ContactSellerSheet(item: item)
                 .presentationDetents([.medium, .large])
         }
+        .sheet(item: $chatConversation) { conversation in
+            NavigationStack {
+                ChatView(conversation: conversation)
+            }
+        }
+        .sheet(isPresented: $showReviewsSheet) {
+            NavigationStack {
+                ReviewsListView(
+                    sellerId: item.sellerID,
+                    sellerName: item.sellerName,
+                    itemForWriting: item
+                )
+            }
+        }
+        .task {
+            await currencyViewModel.loadUSDValue(for: item.price)
+            await loadSellerReviewStats()
+        }
+        .alert("Currency Error", isPresented: $currencyViewModel.showError) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(currencyViewModel.errorMessage ?? "Could not convert currency.")
+        }
+        .alert("Chat Error", isPresented: $showChatError) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(chatErrorMessage ?? "Unable to open chat.")
+        }
+    }
+
+    private func startConversation() async {
+        guard !isOwnItem else { return }
+        guard let currentUser = AuthViewModel.shared.currentUser else {
+            chatErrorMessage = "Please login to start messaging."
+            showChatError = true
+            return
+        }
+
+        isPreparingChat = true
+        defer { isPreparingChat = false }
+
+        do {
+            let conversation = try await ChatService.shared.createOrGetConversation(
+                currentUser: currentUser,
+                otherUserId: item.sellerID,
+                otherUserName: item.sellerName,
+                item: item
+            )
+            chatConversation = conversation
+        } catch {
+            chatErrorMessage = "Unable to open chat: \(error.localizedDescription)"
+            showChatError = true
+        }
+    }
+
+    private func loadSellerReviewStats() async {
+        isLoadingReviews = true
+        defer { isLoadingReviews = false }
+
+        do {
+            let stats = try await ReviewService.shared.fetchSellerStats(sellerId: item.sellerID)
+            sellerAverageRating = stats.average
+            sellerTotalReviews = stats.total
+        } catch {
+            sellerAverageRating = 0
+            sellerTotalReviews = 0
+        }
     }
     
     // MARK: - Seller Initials
@@ -355,7 +505,7 @@ struct ItemDetailView: View {
             category: .books,
             imageURLs: [],
             sellerID: "abc",
-            sellerName: "Himel Rahman",
+            sellerName: "Torikul Rahman",
             sellerPhone: "01712345678"
         ))
     }

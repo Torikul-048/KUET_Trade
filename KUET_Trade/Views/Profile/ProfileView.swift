@@ -2,7 +2,7 @@
 //  ProfileView.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import SwiftUI
@@ -59,6 +59,11 @@ struct ProfileView: View {
                         
                         if let dept = authViewModel.currentUser?.department, !dept.isEmpty {
                             Label(dept, systemImage: "building.2.fill")
+                                .font(.subheadline)
+                        }
+
+                        if let user = authViewModel.currentUser {
+                            Label(String(format: "%.1f (%d reviews)", user.safeAverageRating, user.safeTotalReviews), systemImage: "star.fill")
                                 .font(.subheadline)
                         }
                         

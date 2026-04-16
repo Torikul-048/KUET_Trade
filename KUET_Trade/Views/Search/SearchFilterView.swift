@@ -2,7 +2,7 @@
 //  SearchFilterView.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import SwiftUI
@@ -208,6 +208,9 @@ struct SearchFilterView: View {
             }
             .navigationTitle("Search & Filter")
             .navigationBarTitleDisplayMode(.inline)
+            .listStyle(.insetGrouped)
+            .scrollContentBackground(.hidden)
+            .background(Color.kuetSurface)
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done") {
@@ -225,10 +228,10 @@ struct SearchFilterView: View {
     // MARK: - Category Color Helper
     private func categoryColor(_ category: ItemCategory) -> Color {
         switch category {
-        case .books: return .blue
-        case .electronics: return .purple
-        case .accessories: return .orange
-        case .others: return .green
+        case .books: return Color.kuetGreen
+        case .electronics: return .indigo
+        case .accessories: return Color.kuetGold
+        case .others: return .teal
         }
     }
 }
