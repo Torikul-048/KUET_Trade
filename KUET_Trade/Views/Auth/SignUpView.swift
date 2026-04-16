@@ -2,7 +2,7 @@
 //  SignUpView.swift
 //  KUET_Trade
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import SwiftUI
@@ -10,6 +10,7 @@ import SwiftUI
 struct SignUpView: View {
     @ObservedObject var viewModel: AuthViewModel
     @Environment(\.dismiss) private var dismiss
+    private let batchOptions = ["18", "19", "20", "21", "22", "23", "24", "25", "26"]
     
     var body: some View {
         ScrollView {
@@ -101,6 +102,141 @@ struct SignUpView: View {
                                     .stroke(Color(.separator), lineWidth: 0.5)
                             )
                         }
+                    }
+
+                    // Roll Number
+                    VStack(alignment: .leading, spacing: 6) {
+                        Label("Roll Number", systemImage: "number")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+
+                        TextField("e.g. 2007001", text: $viewModel.signupRoll)
+                            .textFieldStyle(.roundedBorder)
+                            .keyboardType(.numberPad)
+                    }
+
+                    // Batch Picker
+                    VStack(alignment: .leading, spacing: 6) {
+                        Label("Batch", systemImage: "calendar")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+
+                        Menu {
+                            ForEach(batchOptions, id: \.self) { batch in
+                                Button("Batch '\(batch)") {
+                                    viewModel.signupBatch = batch
+                                }
+                            }
+                        } label: {
+                            HStack {
+                                Text(viewModel.signupBatch.isEmpty ? "Select your batch" : "Batch '\(viewModel.signupBatch)")
+                                    .foregroundStyle(viewModel.signupBatch.isEmpty ? Color(.placeholderText) : .primary)
+                                Spacer()
+                                Image(systemName: "chevron.down")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            .padding(10)
+                            .background(Color(.systemBackground))
+                            .cornerRadius(8)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color(.separator), lineWidth: 0.5)
+                            )
+                        }
+                    }
+
+                    // Reference Friend
+                    GroupBox {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("Enter details of a KUET friend who can vouch for you")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+
+                            VStack(alignment: .leading, spacing: 6) {
+                                Label("Friend Name", systemImage: "person.2.fill")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+
+                                TextField("Friend's full name", text: $viewModel.refFriendName)
+                                    .textFieldStyle(.roundedBorder)
+                                    .autocorrectionDisabled()
+                            }
+
+                            VStack(alignment: .leading, spacing: 6) {
+                                Label("Friend Roll", systemImage: "number")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+
+                                TextField("e.g. 1907002", text: $viewModel.refFriendRoll)
+                                    .textFieldStyle(.roundedBorder)
+                                    .keyboardType(.numberPad)
+                            }
+
+                            VStack(alignment: .leading, spacing: 6) {
+                                Label("Friend Department", systemImage: "building.columns")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+
+                                Menu {
+                                    ForEach(AppConstants.departments, id: \.self) { dept in
+                                        Button(dept) {
+                                            viewModel.refFriendDept = dept
+                                        }
+                                    }
+                                } label: {
+                                    HStack {
+                                        Text(viewModel.refFriendDept.isEmpty ? "Select friend's department" : viewModel.refFriendDept)
+                                            .foregroundStyle(viewModel.refFriendDept.isEmpty ? Color(.placeholderText) : .primary)
+                                        Spacer()
+                                        Image(systemName: "chevron.down")
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    .padding(10)
+                                    .background(Color(.systemBackground))
+                                    .cornerRadius(8)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(Color(.separator), lineWidth: 0.5)
+                                    )
+                                }
+                            }
+
+                            VStack(alignment: .leading, spacing: 6) {
+                                Label("Friend Batch", systemImage: "calendar")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+
+                                Menu {
+                                    ForEach(batchOptions, id: \.self) { batch in
+                                        Button("Batch '\(batch)") {
+                                            viewModel.refFriendBatch = batch
+                                        }
+                                    }
+                                } label: {
+                                    HStack {
+                                        Text(viewModel.refFriendBatch.isEmpty ? "Select friend's batch" : "Batch '\(viewModel.refFriendBatch)")
+                                            .foregroundStyle(viewModel.refFriendBatch.isEmpty ? Color(.placeholderText) : .primary)
+                                        Spacer()
+                                        Image(systemName: "chevron.down")
+                                            .font(.caption)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                    .padding(10)
+                                    .background(Color(.systemBackground))
+                                    .cornerRadius(8)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 8)
+                                            .stroke(Color(.separator), lineWidth: 0.5)
+                                    )
+                                }
+                            }
+                        }
+                        .padding(.top, 4)
+                    } label: {
+                        Label("KUETian Reference", systemImage: "person.2.badge.gearshape")
+                            .font(.subheadline)
                     }
                     
                     // Password
