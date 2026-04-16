@@ -10,6 +10,7 @@
 		842C8EB62F537B85002FBC1E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 842C8EB52F537B85002FBC1E /* FirebaseAuth */; };
 		842C8EB82F537B85002FBC1E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 842C8EB72F537B85002FBC1E /* FirebaseFirestore */; };
 		842C8EBA2F537B85002FBC1E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 842C8EB92F537B85002FBC1E /* FirebaseStorage */; };
+		84C0D1012FD7A00100AA11BB /* Cloudinary in Frameworks */ = {isa = PBXBuildFile; productRef = 84C0D1002FD7A00100AA11BB /* Cloudinary */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84C0D1012FD7A00100AA11BB /* Cloudinary in Frameworks */,
 				842C8EB62F537B85002FBC1E /* FirebaseAuth in Frameworks */,
 				842C8EB82F537B85002FBC1E /* FirebaseFirestore in Frameworks */,
 				842C8EBA2F537B85002FBC1E /* FirebaseStorage in Frameworks */,
@@ -121,6 +123,7 @@
 			);
 			name = KUET_Trade;
 			packageProductDependencies = (
+				84C0D1002FD7A00100AA11BB /* Cloudinary */,
 				842C8EB52F537B85002FBC1E /* FirebaseAuth */,
 				842C8EB72F537B85002FBC1E /* FirebaseFirestore */,
 				842C8EB92F537B85002FBC1E /* FirebaseStorage */,
@@ -208,6 +211,7 @@
 			mainGroup = 842C8E642F536B92002FBC1E;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				84C0D0FF2FD7A00100AA11BB /* XCRemoteSwiftPackageReference "cloudinary_ios" */,
 				842C8EB42F537B85002FBC1E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -567,6 +571,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		84C0D0FF2FD7A00100AA11BB /* XCRemoteSwiftPackageReference "cloudinary_ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cloudinary/cloudinary_ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		842C8EB42F537B85002FBC1E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -578,6 +590,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		84C0D1002FD7A00100AA11BB /* Cloudinary */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 84C0D0FF2FD7A00100AA11BB /* XCRemoteSwiftPackageReference "cloudinary_ios" */;
+			productName = Cloudinary;
+		};
 		842C8EB52F537B85002FBC1E /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 842C8EB42F537B85002FBC1E /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

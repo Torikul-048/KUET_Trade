@@ -2,7 +2,7 @@
 //  KUET_TradeTests.swift
 //  KUET_TradeTests
 //
-//  Created by Himel on 1/3/26.
+//  Created by Torikul on 1/3/26.
 //
 
 import Testing
